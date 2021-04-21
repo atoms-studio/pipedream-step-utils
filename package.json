@@ -1,6 +1,6 @@
 {
   "name": "pipedream-step-utils",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A collection of features that can be useful in pipedream steps",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
