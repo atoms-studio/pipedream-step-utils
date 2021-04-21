@@ -4,7 +4,7 @@ A collection of features that can be useful in [Pipedream](https://pipedream.com
 
 ## How To Include
 
-The best way to include foo on [Pipedream](https://pipedream.com/) is to type within each single step where it should be used:
+The best way to include Pipedream Step Utils on [Pipedream](https://pipedream.com/) is to type within each single step where it should be used:
 
 ```javascript
 const PipedreamStepUtils = require("pipedream-step-utils").default;
