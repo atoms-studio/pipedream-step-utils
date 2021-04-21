@@ -73,8 +73,23 @@ export default class PdStepManager {
     }
   };
 
+  /**
+   * Check if you need to skip the step
+   *
+   * @param stepName
+   * @returns boolean
+   */
   skipStep = (stepName: string): boolean => {
     return !!(this.event?.query?.step && this.event?.query?.step !== stepName);
+  };
+
+  /**
+   * Get current endpoint URL
+   *
+   * @returns string
+   */
+  getCurrentEndpointUrl = (): string => {
+    return `${this.event.headers["x-forwarded-proto"]}://${this.event.headers.host}`;
   };
 
   /**
@@ -92,10 +107,10 @@ export default class PdStepManager {
    * });
    *
    * @param url
-   * @param params
+   * @param opts
    * @returns
    */
-  get = async (url: string, params?: object) => {
-    return axios.get(url, { params });
+  get = async (url: string, opts?: object) => {
+    return axios.get(url, opts);
   };
 }
