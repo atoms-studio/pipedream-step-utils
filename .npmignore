@@ -98,3 +98,6 @@ typings/
 *.css.map
 *.sass.map
 *.scss.map
+
+# Demo Local files
+demo/

@@ -1,41 +1,26 @@
-import { PD_Process, PD_Event } from "./types";
+import { PdProcess, PdEvent } from "./types";
+import { Utils } from "./interfaces";
 import axios from "axios";
 
-export default class PdStepManager {
-  private event: PD_Event;
-  private process: PD_Process;
-  constructor(PDProcess: PD_Process, PDEvent: PD_Event) {
-    this.process = PDProcess;
-    this.event = PDEvent;
-
-    this.requiredData();
+export default class PipedreamStepUtils implements Utils {
+  readonly eventQuery: Record<string, any> = {};
+  constructor(readonly process: PdProcess, readonly event: PdEvent) {
+    this.process = process;
+    this.event = event;
+    this.eventQuery =
+      this.event?.raw_event?.query &&
+      Object.entries(this.event.raw_event.query).length
+        ? this.event.raw_event.query
+        : this.event?.query && Object.entries(this.event.query).length
+        ? this.event.query
+        : {};
   }
-
-  requiredData = () => {
-    const notFoundData = [];
-
-    if (typeof this.event !== "object") {
-      notFoundData.push("event");
-    } else if (!this.event.raw_event && !this.event.query) {
-      notFoundData.push("event.env or event.query");
-    }
-
-    if (typeof this.process !== "object") {
-      notFoundData.push("process");
-    } else if (!this.process.env) {
-      notFoundData.push("process.env");
-    }
-
-    if (notFoundData.length) {
-      throw new Error(`Required data not found: ${notFoundData}`);
-    }
-  };
 
   /**
    * Check required step params
    *
    * @example
-   * const manager = new PdStepManager();
+   * const manager = new PipedreamStepUtils();
    * try {
    *    const res = manager.checkRequiredStepParams(["param1", "param2"]);
    *    console.log(res);
@@ -47,19 +32,16 @@ export default class PdStepManager {
    * @returns
    */
   checkRequiredStepParams = (requiredParams: string[]): never | object => {
-    if (requiredParams) {
-      const eventQuery: any = this.event.raw_event
-        ? this.event.raw_event.query
-        : this.event.query;
+    if (requiredParams.length) {
       const validateParams: any = {};
       const notValidParams = [];
       for (const requiredParam of requiredParams) {
-        if (!eventQuery) {
+        if (!Object.entries(this.eventQuery).length) {
           throw new Error(`No event query found`);
-        } else if (!eventQuery[requiredParam]) {
+        } else if (!this.eventQuery[requiredParam]) {
           notValidParams.push(requiredParam);
         } else {
-          validateParams[requiredParam] = eventQuery[requiredParam];
+          validateParams[requiredParam] = this.eventQuery[requiredParam];
         }
       }
 
@@ -80,7 +62,7 @@ export default class PdStepManager {
    * @returns boolean
    */
   skipStep = (stepName: string): boolean => {
-    return !!(this.event?.query?.step && this.event?.query?.step !== stepName);
+    return !!(this.eventQuery?.step && this.eventQuery.step !== stepName);
   };
 
   /**
@@ -96,7 +78,7 @@ export default class PdStepManager {
    * Get url request
    *
    * @example
-   * const manager = new PdStepManager();
+   * const manager = new PipedreamStepUtils();
    * manager
    * .get("https://jsonplaceholder.typicode.com/posts", { userId: 2 })
    * .then((res) => {
@@ -110,7 +92,7 @@ export default class PdStepManager {
    * @param opts
    * @returns
    */
-  get = async (url: string, opts?: object) => {
+  get = async (url: string, opts?: object): Promise<any> => {
     return axios.get(url, opts);
   };
 }

@@ -1,13 +1,13 @@
-export interface PD_Process {
+export type PdProcess = {
   env: object;
-}
+};
 
-export interface PD_Event {
+export type PdEvent = {
   raw_event?: {
     query: object;
   };
   query?: {
-    step: string;
+    step?: string;
   };
   [key: string]: any;
-}
+};
