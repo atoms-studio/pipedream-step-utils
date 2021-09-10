@@ -46,7 +46,6 @@ If you want to specify a step at which to stop the endpoint process (for example
 const stepName = params.stepName;
 if (stepUtils.stopToStep(stepName)) {
   $end(`Stop to "${stepName}" step`);
-  return false;
 }
 ```
 
