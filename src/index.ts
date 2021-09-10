@@ -66,6 +66,16 @@ export default class PipedreamStepUtils implements Utils {
   };
 
   /**
+   * Check if you need to stop process to step
+   *
+   * @param stepName
+   * @returns boolean
+   */
+  stopToStep = (stepName: string): boolean => {
+    return !!(this.eventQuery?.step && this.eventQuery.step === stepName);
+  };
+
+  /**
    * Get current endpoint URL
    *
    * @returns string

@@ -38,6 +38,18 @@ if (stepUtils.skipStep(stepName)) {
 }
 ```
 
+### Stop to step
+
+If you want to specify a step at which to stop the endpoint process (for example: `https: //myendpoint.m.pipedream.net?stopToStep=foo`), you will need to insert the following code in each step of the workflow:
+
+```javascript
+const stepName = params.stepName;
+if (stepUtils.stopToStep(stepName)) {
+  $end(`Stop to "${stepName}" step`);
+  return false;
+}
+```
+
 In this way if the name attributed to the current step (`stepName`) is not the one specified in the query (`step=foo`) then it will not execute the code contained in it, passing to the next step.
 
 ### Get current endpoint URL
