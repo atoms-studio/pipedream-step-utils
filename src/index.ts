@@ -72,7 +72,9 @@ export default class PipedreamStepUtils implements Utils {
    * @returns boolean
    */
   stopToStep = (stepName: string): boolean => {
-    return !!(this.eventQuery?.step && this.eventQuery.step === stepName);
+    return !!(
+      this.eventQuery?.stopToStep && this.eventQuery.stopToStep === stepName
+    );
   };
 
   /**
