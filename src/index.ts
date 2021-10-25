@@ -107,4 +107,26 @@ export default class PipedreamStepUtils implements Utils {
   get = async (url: string, opts?: object): Promise<any> => {
     return axios.get(url, opts);
   };
+
+  /**
+   * Post url request
+   *
+   * @example
+   * const manager = new PipedreamStepUtils();
+   * manager
+   * .post("https://jsonplaceholder.typicode.com/posts", { userId: 2 })
+   * .then((res) => {
+   *    console.log(res.data);
+   * })
+   * .catch((err) => {
+   *    console.log(err.message);
+   * });
+   *
+   * @param url
+   * @param opts
+   * @returns
+   */
+  post = async (url: string, opts?: object): Promise<any> => {
+    return axios.post(url, opts);
+  };
 }
