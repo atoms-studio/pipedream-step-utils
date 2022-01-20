@@ -83,7 +83,9 @@ export default class PipedreamStepUtils implements Utils {
    * @returns string
    */
   getCurrentEndpointUrl = (): string => {
-    return `${this.event.headers["x-forwarded-proto"]}://${this.event.headers.host}`;
+    return `${this.event?.headers?.["x-forwarded-proto"] || "https"}://${
+      this.event.headers.host
+    }`;
   };
 
   /**
